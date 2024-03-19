@@ -1,0 +1,3 @@
+[submodule "lib/lvglApi"]
+	path = lib/lvglApi
+	url = https://github.com/StratifyLabs/LvglAPI
