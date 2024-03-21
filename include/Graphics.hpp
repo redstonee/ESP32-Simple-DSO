@@ -3,13 +3,19 @@
 #include <Arduino.h>
 // #include <lvgl.hpp>
 #include <lvgl.h>
+#include <examples/lv_examples.h>
 #include <TFT_eSPI.h>
 
 #include "config.h"
 
+extern "C"
+{
+    LV_FONT_DECLARE(dengXian)
+}
+
 namespace GFXDriver
 {
-    static TFT_eSPI tft(LCD_WIDTH, LCD_HEIGHT);
+    static TFT_eSPI tft;
 
     void display_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_map)
     {
@@ -42,11 +48,11 @@ namespace GFXDriver
             data->point.x = touchX;
             data->point.y = touchY;
 
-            // Serial.print("Data x ");
-            // Serial.println(touchX);
+            Serial.print("Data x ");
+            Serial.println(touchX);
 
-            // Serial.print("Data y ");
-            // Serial.println(touchY);
+            Serial.print("Data y ");
+            Serial.println(touchY);
         }
     }
 
@@ -65,8 +71,8 @@ namespace GFXDriver
         static lv_color_t buf[LCD_WIDTH * LCD_HEIGHT / 10];
 
         tft.begin();
-        tft.setRotation(3);
-        uint16_t calData[5] = {275, 3620, 264, 3535, 1};
+        tft.setRotation(1);
+        uint16_t calData[5] = {383, 3506, 311, 3408, 3};
         tft.setTouch(calData);
 
         lv_init();
@@ -96,12 +102,38 @@ namespace GFXDriver
 
 namespace Graphics
 {
+
     void init()
     {
         GFXDriver::init();
 
         static auto txt = lv_label_create(lv_scr_act());
-        lv_label_set_text(txt, "Fuck Arduino!");
+        lv_obj_set_style_text_font(txt, &dengXian, LV_PART_MAIN);
+        lv_label_set_text(txt, "你他妈的是傻屄？");
         lv_obj_align(txt, LV_ALIGN_CENTER, 0, 0);
+
+        static uint16_t count = 0;
+        static auto cnt_txt = lv_label_create(lv_scr_act());
+        lv_label_set_text_fmt(cnt_txt, "%d", count);
+        lv_obj_align(cnt_txt, LV_ALIGN_CENTER, 0, -30);
+
+        auto btnOnClick = [](lv_event_t * event)
+        {
+            if (lv_event_get_code(event) == LV_EVENT_CLICKED)
+            {
+                count++;
+                lv_label_set_text_fmt(cnt_txt, "%d", count);
+            }
+        };
+
+        static auto btn = lv_btn_create(lv_scr_act());
+        lv_obj_set_size(btn, 100, 30);
+        lv_obj_align(btn, LV_ALIGN_CENTER, 0, 60);
+        lv_obj_add_event_cb(btn, btnOnClick, LV_EVENT_CLICKED, NULL);
+
+        static auto btn_txt = lv_label_create(btn);
+        lv_obj_set_style_text_font(btn_txt, &dengXian, LV_PART_MAIN);
+        lv_label_set_text(btn_txt, "我肏");
+        lv_obj_center(btn_txt);
     }
 }
