@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "lv_example_style.h": "c",
+        "lv_example_get_started.h": "c",
+        "lv_example_widgets.h": "c",
+        "lv_example_layout.h": "c",
+        "lv_example_scroll.h": "c",
+        "lv_example_event.h": "c",
+        "lvgl.h": "c",
+        "lv_conf.h": "c"
+    }
+}
