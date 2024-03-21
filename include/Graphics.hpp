@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Arduino.h>
-// #include <lvgl.hpp>
 #include <lvgl.h>
 #include <examples/lv_examples.h>
 #include <TFT_eSPI.h>
