@@ -9,7 +9,7 @@
 
 namespace GFXDriver
 {
-    static TFT_eSPI tft(LCD_WIDTH, LCD_HEIGHT);
+    static TFT_eSPI tft;
 
     void display_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_map)
     {
@@ -65,7 +65,7 @@ namespace GFXDriver
         static lv_color_t buf[LCD_WIDTH * LCD_HEIGHT / 10];
 
         tft.begin();
-        tft.setRotation(3);
+        tft.setRotation(1);
         uint16_t calData[5] = {275, 3620, 264, 3535, 1};
         tft.setTouch(calData);
 
