@@ -2,16 +2,7 @@
 
 #include <Arduino.h>
 
-// Pin definitions
-constexpr uint8_t LCD_CS = 10;
-constexpr uint8_t LCD_DC = 14;
-constexpr uint8_t LCD_SDA = 11;
-constexpr uint8_t LCD_SCL = 12;
-constexpr uint8_t LCD_BL = 4;
-
-constexpr uint8_t TCH_CS = 8;
-constexpr uint8_t TCH_IRQ = 7;
-
+// Pin definitions except for the display
 constexpr uint8_t CHARGE_STAT = 48;
 constexpr uint8_t CHARGE_DET = 47;
 

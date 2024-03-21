@@ -10,7 +10,7 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  Graphics::init();
+  GFXDriver::init();
 }
 
 void loop()
