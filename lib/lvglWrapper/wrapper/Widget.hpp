@@ -23,7 +23,7 @@ namespace lvgl
         That &align(lv_align_t align, lv_coord_t x_mod, lv_coord_t y_mod)
         {
             lv_obj_align(_obj, align, x_mod, y_mod);
-            return (That &)(*this);
+            return static_cast<That &>(*this);
         }
 
         That &setSize(lv_coord_t width, lv_coord_t height)

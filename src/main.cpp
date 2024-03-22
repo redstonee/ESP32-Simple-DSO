@@ -4,14 +4,18 @@
 
 #include "config.h"
 #include "Graphics.hpp"
-
+#include "AnalogConfig.hpp"
+#include "Buttonhandler.hpp"
 
 void setup()
 {
   // put your setup code here, to run once:
+
   Serial.begin(115200);
   GFXDriver::init();
   Graphics::drawTestThings();
+  AnalogConfig::init();
+  ButtonHandler::init();
 }
 
 void loop()

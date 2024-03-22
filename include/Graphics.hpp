@@ -77,24 +77,58 @@ namespace GFXDriver
 
 namespace Graphics
 {
+    using namespace lvgl;
+
+    static bool ch0_selected = false;
+    static bool ch1_selected = false;
+    static bool running = true;
+
+    inline void setChannelSelected(uint8_t ch, bool selected)
+    {
+        switch (ch)
+        {
+        case 0:
+            ch0_selected = selected;
+            break;
+
+        case 1:
+            ch1_selected = selected;
+            break;
+        default:
+            log_printf("Invalid channel number: %d\n", ch);
+        }
+    }
+
+    inline bool getChannelSelected(uint8_t ch)
+    {
+        switch (ch)
+        {
+        case 0:
+            return ch0_selected;
+        case 1:
+            return ch1_selected;
+        default:
+            log_printf("Invalid channel number: %d\n", ch);
+            return false;
+        }
+    }
+
+    inline void toggleRunning()
+    {
+        running = !running;
+    }
 
     void drawTestThings()
     {
-        // static auto txt = lvgl::Label("你他妈的是傻屄？").setFont(&dengXian).align(LV_ALIGN_CENTER, 0, 0);
-        // static auto txt = lv_label_create(lv_scr_act());
-        // lv_obj_set_style_text_font(txt, &dengXian, LV_PART_MAIN);
-        // lv_label_set_text(txt, "你他妈的是傻屄？");
-        // lv_obj_align(txt, LV_ALIGN_CENTER, 0, 0);
+        static auto txt = Label("你他妈的是傻屄？");
+        txt.setFont(&dengXian).align(LV_ALIGN_CENTER, 0, 0);
 
         static uint16_t count = 0;
 
-        static auto cnt_txt = lvgl::Label("0");
-        static auto ww=cnt_txt.align(LV_ALIGN_CENTER, 0, -30);
-        // static auto cnt_txt = lv_label_create(lv_scr_act());
-        // lv_label_set_text_fmt(cnt_txt, "%d", count);
-        // lv_obj_align(cnt_txt, LV_ALIGN_CENTER, 0, -30);
+        static auto cnt_txt = Label("0");
+        cnt_txt.align(LV_ALIGN_CENTER, 0, -30);
 
-        static class BtnOnClick : public lvgl::OnClickListener
+        static class BtnOnClick : public OnClickListener
         {
         public:
             void onClick()
@@ -104,17 +138,18 @@ namespace Graphics
             }
         } btnOnClick;
 
-        // static auto btn = lvgl::TextButton("我肏").setOnClickListener(&btnOnClick).align(LV_ALIGN_CENTER, 0, 60).setSize(100, 30);
+        static auto btn = TextButton("肏你");
+        btn.setFont(&dengXian).setOnClickListener(&btnOnClick).align(LV_ALIGN_CENTER, 0, 60).setSize(100, 30);
+    }
 
-        //     static auto btn = lv_btn_create(lv_scr_act());
-        //     lv_obj_set_size(btn, 100, 30);
-        //     lv_obj_align(btn, LV_ALIGN_CENTER, 0, 60);
-        //     lv_obj_add_event_cb(btn, btnOnClick, LV_EVENT_CLICKED, NULL);
+    void drawMainScreen()
+    {
 
-        //     static auto btn_txt = lv_label_create(btn);
-        //     lv_obj_set_style_text_font(btn_txt, &dengXian, LV_PART_MAIN);
-        //     lv_label_set_text(btn_txt, "我肏");
-        //     lv_obj_center(btn_txt);
-        // }
+        static auto title = Label("垃圾示波器");
+        title.setFont(&dengXian).align(LV_ALIGN_TOP_MID, 0, 0).setSize(LCD_WIDTH, 30);
+
+        static auto txt_running = Label("Running");
+        txt_running.align(LV_ALIGN_BOTTOM_LEFT, 0, 0).setFont(&lv_font_montserrat_16);
+
     }
 }

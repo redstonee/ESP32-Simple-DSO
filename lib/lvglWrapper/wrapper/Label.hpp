@@ -23,7 +23,9 @@ namespace lvgl
         {
             va_list args;
             va_start(args, fmt);
-            lv_label_set_text_fmt(_obj, fmt, args);
+            char buf[1024];
+            vsprintf(buf, fmt, args);
+            lv_label_set_text(_obj, buf);
             va_end(args);
             return *this;
         }
