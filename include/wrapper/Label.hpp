@@ -4,7 +4,7 @@
 
 namespace lvgl
 {
-    class Label : public Widget
+    class Label : public Widget<Label>
     {
     public:
         Label(const char *txt = "", lv_obj_t *parent = lv_scr_act())
@@ -23,7 +23,7 @@ namespace lvgl
         {
             va_list args;
             va_start(args, fmt);
-            lv_label_set_text_fmt(_obj, fmt);
+            lv_label_set_text_fmt(_obj, fmt, args);
             va_end(args);
             return *this;
         }

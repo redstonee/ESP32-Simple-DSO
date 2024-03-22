@@ -6,16 +6,16 @@
 
 namespace lvgl
 {
-    class TextButton : public Widget
+    class TextButton : public Widget<TextButton>
     {
     private:
         Label _label;
 
     public:
-        TextButton(char *txt, lv_obj_t *parent = lv_scr_act())
+        TextButton(const char *txt, lv_obj_t *parent = lv_scr_act())
         {
             _obj = lv_btn_create(parent);
-            _label = Label(txt, _obj);
+            _label = Label(txt, _obj).align(LV_ALIGN_CENTER, 0, 0);
         }
 
         TextButton &setText(char *txt)

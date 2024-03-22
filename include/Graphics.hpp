@@ -80,7 +80,7 @@ namespace Graphics
 
     void drawTestThings()
     {
-        static auto txt = lvgl::Label("你他妈的是傻屄？").setFont(&dengXian).align(LV_ALIGN_CENTER, 0, 0);
+        // static auto txt = lvgl::Label("你他妈的是傻屄？").setFont(&dengXian).align(LV_ALIGN_CENTER, 0, 0);
         // static auto txt = lv_label_create(lv_scr_act());
         // lv_obj_set_style_text_font(txt, &dengXian, LV_PART_MAIN);
         // lv_label_set_text(txt, "你他妈的是傻屄？");
@@ -89,7 +89,7 @@ namespace Graphics
         static uint16_t count = 0;
 
         static auto cnt_txt = lvgl::Label("0");
-        cnt_txt.align(LV_ALIGN_CENTER, 0, -30);
+        static auto ww=cnt_txt.align(LV_ALIGN_CENTER, 0, -30);
         // static auto cnt_txt = lv_label_create(lv_scr_act());
         // lv_label_set_text_fmt(cnt_txt, "%d", count);
         // lv_obj_align(cnt_txt, LV_ALIGN_CENTER, 0, -30);
@@ -104,8 +104,7 @@ namespace Graphics
             }
         } btnOnClick;
 
-        static auto btn = lvgl::TextButton("我肏");
-        btn.setOnClickListener(&btnOnClick).align(LV_ALIGN_CENTER, 0, 60).setSize(100, 30);
+        // static auto btn = lvgl::TextButton("我肏").setOnClickListener(&btnOnClick).align(LV_ALIGN_CENTER, 0, 60).setSize(100, 30);
 
         //     static auto btn = lv_btn_create(lv_scr_act());
         //     lv_obj_set_size(btn, 100, 30);
