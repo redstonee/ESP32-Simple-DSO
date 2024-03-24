@@ -7,6 +7,9 @@
 #include "wrapper/Label.hpp"
 #include "wrapper/Style.hpp"
 #include "wrapper/Widget.hpp"
+#include "wrapper/Slider.hpp"
+#include "wrapper/Spinner.hpp"
+#include "wrapper/Chart.hpp"
 
 namespace lvgl
 {

@@ -13,7 +13,8 @@ void setup()
 
   Serial.begin(115200);
   GFXDriver::init();
-  Graphics::drawTestThings();
+  // Graphics::drawTestThings();
+  Graphics::drawMainScreen();
   AnalogConfig::init();
   ButtonHandler::init();
 }

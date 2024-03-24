@@ -93,6 +93,12 @@ namespace lvgl
             return setHeight(h).setWidth(w);
         }
 
+        Style &setSize(lv_coord_t val)
+        {
+            lv_style_set_size(&_style, val);
+            return *this;
+        }
+
         Style &setPadTop(uint16_t pad)
         {
             lv_style_set_pad_top(&_style, pad);

@@ -4,13 +4,15 @@
 #include <lvgl.h>
 #include <examples/lv_examples.h>
 #include <TFT_eSPI.h>
+// #include <random>
 
 #include "config.h"
 #include "lvglWrapper.h"
 
 extern "C"
 {
-    LV_FONT_DECLARE(dengXian)
+    LV_FONT_DECLARE(font_dengXian_14)
+    LV_FONT_DECLARE(font_dengXian_28)
 }
 
 namespace GFXDriver
@@ -121,7 +123,7 @@ namespace Graphics
     void drawTestThings()
     {
         static auto txt = Label("你他妈的是傻屄？");
-        txt.setFont(&dengXian).align(LV_ALIGN_CENTER, 0, 0);
+        txt.setFont(&font_dengXian_28).align(LV_ALIGN_CENTER, 0, 0);
 
         static uint16_t count = 0;
 
@@ -139,17 +141,56 @@ namespace Graphics
         } btnOnClick;
 
         static auto btn = TextButton("肏你");
-        btn.setFont(&dengXian).setOnClickListener(&btnOnClick).align(LV_ALIGN_CENTER, 0, 60).setSize(100, 30);
+        btn.setFont(&font_dengXian_28).setOnClickListener(&btnOnClick).align(LV_ALIGN_CENTER, 0, 60).setSize(100, 30);
+    }
+
+    void refreshStatusTask(void *pvParameters)
+    {
+        static auto txt_running = ((Label **)pvParameters)[0];
+
+        while (true)
+        {
+            txt_running->setText(running ? "Running" : "Stopped").setColor(running ? lv_palette_main(LV_PALETTE_GREEN) : lv_palette_main(LV_PALETTE_RED));
+            vTaskDelay(100 / portTICK_PERIOD_MS);
+        }
+    }
+
+    void testDataTask(void *pvParameters)
+    {
+        std::vector<lv_coord_t> chartData(200, 0);
+        auto chart = (Chart *)pvParameters;
+        auto s = lv_chart_add_series(chart->get(), lv_palette_main(LV_PALETTE_RED), LV_CHART_AXIS_PRIMARY_Y);
+        // lv_chart_set_ext_y_array(chart->get(), s, chartData.data());
+
+        while (true)
+        {
+            if (running)
+            {
+                for (int i = 0; i < 200; i++)
+                {
+                    lv_chart_set_next_value(chart->get(), s, random(-30,30));
+                }
+                chart->refresh();
+            }
+            vTaskDelay(100 / portTICK_PERIOD_MS);
+        }
     }
 
     void drawMainScreen()
     {
 
         static auto title = Label("垃圾示波器");
-        title.setFont(&dengXian).align(LV_ALIGN_TOP_MID, 0, 0).setSize(LCD_WIDTH, 30);
+        title.setFont(&font_dengXian_14).align(LV_ALIGN_TOP_MID, 0, 0);
 
         static auto txt_running = Label("Running");
-        txt_running.align(LV_ALIGN_BOTTOM_LEFT, 0, 0).setFont(&lv_font_montserrat_16);
+        txt_running.align(LV_ALIGN_BOTTOM_LEFT, 32, -8).setFont(&lv_font_montserrat_10).setColor(lv_palette_main(LV_PALETTE_GREEN));
 
+        static auto waveChart = Chart(LV_CHART_TYPE_LINE);
+        waveChart.setRange(LV_CHART_AXIS_PRIMARY_Y, 0, 4096).setDivLineCount(4, 6).setPointSize(0).align(LV_ALIGN_CENTER, 0, 0).setSize(280, 200).setPointCount(200).setRange(LV_CHART_AXIS_PRIMARY_Y, -30, 30).setUpdateMode(LV_CHART_UPDATE_MODE_SHIFT).setParent(lv_scr_act());
+
+        xTaskCreate(testDataTask, "testDataTask", 4096, &waveChart, 1, NULL);
+
+        static const Label *statusLabels[] = {&txt_running};
+        xTaskCreate(refreshStatusTask, "refreshStatusTask", 4096, (void *)statusLabels, 1, NULL);
     }
 }
