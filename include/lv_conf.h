@@ -32,7 +32,7 @@
 /*Enable features to draw on transparent background.
  *It's required if opa, and transform_* style properties are used.
  *Can be also used if the UI is above another layer, e.g. an OSD menu or video player.*/
-#define LV_COLOR_SCREEN_TRANSP 0
+#define LV_COLOR_SCREEN_TRANSP 1
 
 /* Adjust color mix functions rounding. GPUs might calculate color mix (blending) differently.
  * 0: round down, 64: round up from x.75, 128: round up from half, 192: round up from x.25, 254: round up */
@@ -78,7 +78,7 @@
  *====================*/
 
 /*Default display refresh period. LVG will redraw changed areas with this period time*/
-#define LV_DISP_DEF_REFR_PERIOD 30      /*[ms]*/
+#define LV_DISP_DEF_REFR_PERIOD 10      /*[ms]*/
 
 /*Input device read period in milliseconds*/
 #define LV_INDEV_DEF_READ_PERIOD 30     /*[ms]*/

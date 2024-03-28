@@ -1,16 +1,18 @@
 #include <Arduino.h>
-#include <lvgl.h>
 #include <TFT_eSPI.h>
+#include <lvgl.h>
 
-#include "config.h"
-#include "Graphics.hpp"
 #include "AnalogConfig.hpp"
 #include "Buttonhandler.hpp"
+#include "Graphics.hpp"
+#include "config.h"
 
-void setup()
-{
+SemaphoreHandle_t lvglMutex;
+
+void setup() {
   // put your setup code here, to run once:
 
+  lvglMutex = xSemaphoreCreateMutex();
   Serial.begin(115200);
   GFXDriver::init();
   // Graphics::drawTestThings();
@@ -19,10 +21,11 @@ void setup()
   ButtonHandler::init();
 }
 
-void loop()
-{
+void loop() {
   // put your main code here, to run repeatedly:
-  lv_tick_inc(5);
-  lv_task_handler();
+  if (xSemaphoreTake(lvglMutex, 10 / portTICK_RATE_MS)) {
+      lv_task_handler();
+      xSemaphoreGive(lvglMutex);
+    }
   delay(5);
 }
